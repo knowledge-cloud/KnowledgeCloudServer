@@ -1,5 +1,5 @@
 {
-  "app": "npx ts-node --prefer-ts-exts bin/knowledge_cloud_server.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/knowledge-cloud-server.ts",
   "watch": {
     "include": [
       "**"
