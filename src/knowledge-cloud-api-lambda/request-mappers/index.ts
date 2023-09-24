@@ -1,1 +1,1 @@
-export { ExampleMapper } from "./example-mapper";
+export { WhatsAppWebhookVerificationMapper, WhatsAppWebhookMessageMapper } from "./whatsapp-request-mappers";
