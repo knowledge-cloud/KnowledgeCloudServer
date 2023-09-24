@@ -6,7 +6,7 @@ import { join } from 'path';
 import { AppRegistryResource, KnowledgeCloudServerStackProps } from './props-types';
 import { app } from '../src/knowledge-cloud-api-lambda/app';
 import { CognitoUserPoolsAuthorizer, IResource, LambdaIntegration, LambdaIntegrationOptions, Method, MethodOptions, RestApi } from 'aws-cdk-lib/aws-apigateway';
-import { ServicePrincipal } from 'aws-cdk-lib/aws-iam';
+import { Effect, PolicyStatement, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 
 
 class LambdaIntegrationNoPermission extends LambdaIntegration {
@@ -29,7 +29,7 @@ export class KnowledgeCloudServerStack extends Stack {
       memorySize: 1024,
       functionName: "KnowledgeCloudAPILambda",
       timeout: Duration.seconds(300),
-      runtime: Runtime.NODEJS_14_X,
+      runtime: Runtime.NODEJS_16_X,
       architecture: Architecture.ARM_64,
       handler: "apiHandler",
       entry: join(__dirname, '../src/knowledge-cloud-api-lambda/index.ts'),
@@ -41,6 +41,13 @@ export class KnowledgeCloudServerStack extends Stack {
       },
       awsSdkConnectionReuse: true,
     })
+
+    // add secrest manager permission
+    kcApiFunction.addToRolePolicy(new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: ["secretsmanager:GetSecretValue"],
+      resources: [props.whatsAppVerifyTokenSecretArn]
+    }))
 
     const appRegistry = this.getAppRegistry()
 

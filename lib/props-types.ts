@@ -13,4 +13,5 @@ export interface AppRegistryResource {
 
   export interface KnowledgeCloudServerStackProps extends StackProps {
     stage: string
+    whatsAppVerifyTokenSecretArn: string
   }

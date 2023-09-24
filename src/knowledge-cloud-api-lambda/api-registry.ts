@@ -1,6 +1,6 @@
 import { app } from "./app";
-import { exampleAPI } from "./handlers/example/example";
-import { ExampleMapper } from "./request-mappers";
+import { whatsAppWebhook } from "./handlers/whatsapp-webhook/whatsapp-webhook";
+import { WhatsAppWebhookMessageMapper, WhatsAppWebhookVerificationMapper } from "./request-mappers";
 
 export function registerAPIHandlers() {
 
@@ -9,9 +9,10 @@ export function registerAPIHandlers() {
         *       app.<method>("<path>", <mapper>, <handler>,  { authType: "ALLOW_UNAUTHENTICATED" })
     
         * - Example of a handler which allows only specific clients
-        *       app.<method>("<path>", <mapper>, <handler>,  { authType: "ALLOW_SPECIFIC_CLIENTS", allowedClients: [SPA_CLIENT_ID] })
+        *       app.<method>("<path>", <mapper>, <handler>,  { authType: "ALLOW_SPECIFIC_CLIENTS", allowedClients: [CLIENT_ID] })
     */
 
-    // example of a api
-    app.post("/example", new ExampleMapper(), exampleAPI.createExample)
+    // whatsapp webhook
+    app.get("/webhook", new WhatsAppWebhookVerificationMapper(), whatsAppWebhook.verifyWebhook)
+    app.post("/webhook", new WhatsAppWebhookMessageMapper(), whatsAppWebhook.handleMessageRequest)
 }
