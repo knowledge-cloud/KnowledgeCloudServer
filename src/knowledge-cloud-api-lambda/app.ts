@@ -14,17 +14,17 @@ class App {
             PUT: {},
             DELETE: {}
         };
-    get(path: string, requestMapper: RequestMapper<any>, handler: Handler<any, any>, options: APIOptions = { authType: "ALLOW_AUTHENTICATED_CLIENTS"}) {
+    get(path: string, requestMapper: RequestMapper<any>, handler: Handler<any, any>, options: APIOptions = { authType: "ALLOW_AUTHENTICATED_CLIENTS", stringifyResponse: true}) {
         this.APIS.GET[path] = { handler, requestMapper, options };
     }
 
-    post(path: string, requestMapper: RequestMapper<any>, handler: Handler<any, any>, options: APIOptions = { authType: "ALLOW_AUTHENTICATED_CLIENTS"}) {
+    post(path: string, requestMapper: RequestMapper<any>, handler: Handler<any, any>, options: APIOptions = { authType: "ALLOW_AUTHENTICATED_CLIENTS", stringifyResponse: true}) {
         this.APIS.POST[path] = { handler, requestMapper, options };
     }
-    put(path: string, requestMapper: RequestMapper<any>, handler: Handler<any, any>, options: APIOptions = { authType: "ALLOW_AUTHENTICATED_CLIENTS"}) {
+    put(path: string, requestMapper: RequestMapper<any>, handler: Handler<any, any>, options: APIOptions = { authType: "ALLOW_AUTHENTICATED_CLIENTS", stringifyResponse: true}) {
         this.APIS.PUT[path] = { handler, requestMapper, options };
     }
-    delete(path: string, requestMapper: RequestMapper<any>, handler: Handler<any, any>, options: APIOptions = { authType: "ALLOW_AUTHENTICATED_CLIENTS"}) {
+    delete(path: string, requestMapper: RequestMapper<any>, handler: Handler<any, any>, options: APIOptions = { authType: "ALLOW_AUTHENTICATED_CLIENTS", stringifyResponse: true}) {
         this.APIS.DELETE[path] = { handler, requestMapper, options };
     }
 

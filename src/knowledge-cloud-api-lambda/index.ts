@@ -30,7 +30,7 @@ export const apiHandler: APIGatewayProxyHandler = async (event, context) => {
             }
             return {
                 statusCode: 200,
-                body: result
+                body: apiHandler.options.stringifyResponse ? JSON.stringify(result) : result
             }
 
         } catch (error) {
