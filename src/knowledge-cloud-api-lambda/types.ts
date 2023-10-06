@@ -1,5 +1,4 @@
 import { Handler } from "./handler-types"
-import { RequestMapper } from "./request-mapper"
 import { APIGatewayProxyEvent } from "aws-lambda";
 
 
@@ -27,6 +26,7 @@ declare const APIGatewayAuthZTypes: {
 export type APIGatewayAuthZType = keyof typeof APIGatewayAuthZTypes
 
 export type APIOptions = {
-    authType: APIGatewayAuthZType,
-    allowedClients?: string[]
+    authType?: APIGatewayAuthZType,
+    stringifyResponse?: boolean
+    allowedClients?: string[],
 }

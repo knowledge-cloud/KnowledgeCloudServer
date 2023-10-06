@@ -1,11 +1,11 @@
-import { Duration, Stack, StackProps } from 'aws-cdk-lib';
+import { Duration, Stack } from 'aws-cdk-lib';
 import { Architecture, CfnPermission, IFunction, Runtime } from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Construct } from 'constructs';
 import { join } from 'path';
 import { AppRegistryResource, KnowledgeCloudServerStackProps } from './props-types';
 import { app } from '../src/knowledge-cloud-api-lambda/app';
-import { CognitoUserPoolsAuthorizer, IResource, LambdaIntegration, LambdaIntegrationOptions, Method, MethodOptions, RestApi } from 'aws-cdk-lib/aws-apigateway';
+import { IResource, LambdaIntegration, LambdaIntegrationOptions, Method, MethodOptions, RestApi } from 'aws-cdk-lib/aws-apigateway';
 import { Effect, PolicyStatement, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 
 
@@ -29,7 +29,7 @@ export class KnowledgeCloudServerStack extends Stack {
       memorySize: 1024,
       functionName: "KnowledgeCloudAPILambda",
       timeout: Duration.seconds(300),
-      runtime: Runtime.NODEJS_16_X,
+      runtime: Runtime.NODEJS_18_X,
       architecture: Architecture.ARM_64,
       handler: "apiHandler",
       entry: join(__dirname, '../src/knowledge-cloud-api-lambda/index.ts'),
@@ -47,6 +47,12 @@ export class KnowledgeCloudServerStack extends Stack {
       effect: Effect.ALLOW,
       actions: ["secretsmanager:GetSecretValue"],
       resources: [props.whatsAppVerifyTokenSecretArn]
+    }))
+    // add all dynamodb permission
+    kcApiFunction.addToRolePolicy(new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: ["dynamodb:*"],
+      resources: [props.whatsAppUserTableArn, props.whatsAppChatSessionTableArn]
     }))
 
     const appRegistry = this.getAppRegistry()
