@@ -10,7 +10,9 @@ export function getEnvVariables(env: Env) : EnvConstants {
             logEnv(env);
             return {
                 stage: "gamma",
-                whatsAppVerifyTokenSecretArn: "arn:aws:secretsmanager:ap-south-1:869693743363:secret:whatsapp-verify-token-CoVgEl"
+                whatsAppVerifyTokenSecretArn: "arn:aws:secretsmanager:ap-south-1:869693743363:secret:whatsapp-verify-token-CoVgEl",
+                whatsAppAuthTokenSecretArn: "arn:aws:secretsmanager:ap-south-1:869693743363:secret:whatsapp-auth-token-P0Z6K5",
+                cognitionEngineLambdaArn: "arn:aws:lambda:ap-south-1:869693743363:function:CognitionEngineLambda"
             }
         default:
             logEnv(env);
@@ -22,6 +24,8 @@ export function getEnvVariables(env: Env) : EnvConstants {
 export interface EnvConstants {
     stage: string;
     whatsAppVerifyTokenSecretArn: string;
+    whatsAppAuthTokenSecretArn: string;
+    cognitionEngineLambdaArn: string;
 }
 
 export function logEnv(env: string) {

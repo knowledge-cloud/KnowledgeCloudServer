@@ -11,6 +11,9 @@ export interface WhatsAppTextMessageAPIRequest {
         preview_url: boolean;
         body: string;
     },
+    context?: {
+        message_id: string;
+    },
     template?: {
         name: string;
         language: {

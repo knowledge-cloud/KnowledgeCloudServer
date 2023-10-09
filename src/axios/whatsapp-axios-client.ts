@@ -1,8 +1,16 @@
+import { secretsManagerHandler } from "../aws-handlers/secrets-manager-handler";
 import { BaseAxiosClient } from "./base-axios-client";
 
 class WhatsAppAxiosClient extends BaseAxiosClient {
     async setClientAuthentication(): Promise<void> {
-        this.client.defaults.headers.common['Authorization'] = `Bearer <TOKEN>`;
+        this.client.defaults.headers.common['Authorization'] = await this.getTokenFromSecretsManager();
+    }
+
+    private async getTokenFromSecretsManager(): Promise<string> {
+        console.log("Getting auth token from secrets manager");
+        let secret = await secretsManagerHandler.getSecretValue("whatsapp-auth-token");
+        console.log("Got auth token from secrets manager");
+        return `Bearer ${secret.auth_token}`;
     }
 }
 

@@ -16,27 +16,49 @@ export interface WhatsAppWebhookRequest {
                     display_phone_number: string;
                     phone_number_id: string;
                 },
-                contacts: {
+                contacts?: {
                     profile: {
                         name: string;
                     },
                     wa_id: string;
                 }[],
-                messages: {
-                    context?: {
-                        from: string;
-                        id: string;
-                    },
-                    from: string;
-                    id: string;
-                    timestamp: string;
-                    text: {
-                        body: string;
-                    },
-                    type: string;
-                }[]
+                messages?: WhatsAppWebhookMessage[],
+                statuses?: WhatsAppWebhookStatus[]
             },
             field: string;
         }[]
     }[]
+}
+
+export interface WhatsAppWebhookMessage {
+    context?: {
+        from: string;
+        id: string;
+    },
+    from: string;
+    id: string;
+    timestamp: string;
+    text: {
+        body: string;
+    },
+    type: string;
+}
+
+export interface WhatsAppWebhookStatus {
+    id: string;
+    status: string;
+    timestamp: string;
+    recipient_id: string;
+    conversation: {
+        id: string;
+        expiration_timestamp: string;
+        origin: {
+            type: string;
+        }
+    },
+    pricing: {
+        billable: boolean;
+        pricing_model: string;
+        category: string;
+    }
 }

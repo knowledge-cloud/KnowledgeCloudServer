@@ -46,14 +46,27 @@ export class KnowledgeCloudServerStack extends Stack {
     kcApiFunction.addToRolePolicy(new PolicyStatement({
       effect: Effect.ALLOW,
       actions: ["secretsmanager:GetSecretValue"],
-      resources: [props.whatsAppVerifyTokenSecretArn]
+      resources: [props.whatsAppVerifyTokenSecretArn, props.whatsAppAuthTokenSecretArn]
     }))
     // add all dynamodb permission
     kcApiFunction.addToRolePolicy(new PolicyStatement({
       effect: Effect.ALLOW,
       actions: ["dynamodb:*"],
-      resources: [props.whatsAppUserTableArn, props.whatsAppChatSessionTableArn]
+      resources: [
+        props.whatsAppUserTableArn,
+        `${props.whatsAppUserTableArn}/*`,
+         props.whatsAppChatSessionTableArn,
+        `${props.whatsAppChatSessionTableArn}/*`
+      ]
     }))
+
+    //Cognition Engine lambda invoke permission
+    kcApiFunction.addToRolePolicy(new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: ["lambda:InvokeFunction"],
+      resources: [props.cognitionEngineLambdaArn]
+    }))
+
 
     const appRegistry = this.getAppRegistry()
 
