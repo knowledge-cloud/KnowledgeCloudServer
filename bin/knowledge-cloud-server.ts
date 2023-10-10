@@ -13,6 +13,8 @@ const whatsAppStack = new WhatsAppStack(app, 'WhatsAppStack', {});
 new KnowledgeCloudServerStack(app, 'KnowledgeCloudServerStack', {
   stage: ENV_CONSTANTS.stage,
   whatsAppVerifyTokenSecretArn: ENV_CONSTANTS.whatsAppVerifyTokenSecretArn,
+  whatsAppAuthTokenSecretArn: ENV_CONSTANTS.whatsAppAuthTokenSecretArn,
   whatsAppUserTableArn: whatsAppStack.whatsAppUserTable.tableArn,
   whatsAppChatSessionTableArn: whatsAppStack.whatsAppChatSessionTable.tableArn,
+  cognitionEngineLambdaArn: ENV_CONSTANTS.cognitionEngineLambdaArn
 });

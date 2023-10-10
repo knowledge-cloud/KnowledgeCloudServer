@@ -13,6 +13,6 @@ export function registerAPIHandlers() {
     */
 
     // whatsapp webhook
-    app.get("/webhook", new WhatsAppWebhookVerificationMapper(), whatsAppWebhook.verifyWebhook, { stringifyResponse: false })
-    app.post("/webhook", new WhatsAppWebhookMessageMapper(), whatsAppWebhook.handleMessageRequest)
+    app.get("/whatsapp/webhook", new WhatsAppWebhookVerificationMapper(), whatsAppWebhook.verifyWebhook, { stringifyResponse: false })
+    app.post("/whatsapp/webhook", new WhatsAppWebhookMessageMapper(), whatsAppWebhook.handleMessageRequest)
 }

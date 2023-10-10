@@ -1,5 +1,6 @@
 import { secretsManagerHandler } from "../../../aws-handlers/secrets-manager-handler";
 import { WhatsApp } from "../../../whatsapp/whatsapp";
+import { whatsAppMessageHandler } from "../../../whatsapp/whatsapp-handlers";
 import { ErrorObject } from "../../handler-types";
 import { WhatsAppWebhookRequest, WhatsAppWebhookVerificationRequest } from "./whatsapp-webhook-types";
 
@@ -20,6 +21,21 @@ class WhatsAppWebhook {
 
     async handleMessageRequest(request: WhatsAppWebhookRequest): Promise<void> {
         console.log(`Received message from ${JSON.stringify(request, undefined, 2)}`);
+        for (const entry of request.entry) {
+            for (const change of entry.changes) {
+                if (change.field === "messages") {
+                    if (change.value.messages) {
+                        for (const message of change.value.messages) {
+                            await whatsAppMessageHandler.handleMessageRequest(message);
+                        }
+                    } else if (change.value.statuses) {
+                        for (const status of change.value.statuses) {
+                            await whatsAppMessageHandler.handleStatusRequest(status);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

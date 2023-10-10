@@ -8,6 +8,7 @@ export class ErrorObject {
     constructor(statusCode: number, message: string) {
         this.statusCode = statusCode
         this.message = message
+        console.error(`ErrorObject: ${JSON.stringify(this, undefined, 2)}`)
     }
 
     static getErrorObjectFromError(error: unknown): ErrorObject {

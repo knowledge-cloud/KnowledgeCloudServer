@@ -1,7 +1,8 @@
 import { CfnOutput, Stack, StackProps } from "aws-cdk-lib";
 import { AttributeType, BillingMode, Table } from "aws-cdk-lib/aws-dynamodb";
 import { Construct } from "constructs";
-import { PHONE_NUMBER_STATUS_INDEX } from "../src/data-models-and-daos/whatsapp-chat-session/whatsapp-chat-session-model";
+import { PHONE_NUMBER_STATUS_INDEX, WHATSAPP_CHAT_SESSION_TABLE } from "../src/data-models-and-daos/whatsapp-chat-session/whatsapp-chat-session-model";
+import { WHATSAPP_USER_TABLE } from "../src/data-models-and-daos/whatsapp-user/whatsapp-user-model";
 
 export class WhatsAppStack extends Stack {
     whatsAppUserTable: Table;
@@ -10,7 +11,7 @@ export class WhatsAppStack extends Stack {
         super(scope, id, props);
 
         this.whatsAppUserTable = new Table(this, "WhatsAppUserTable", {
-            tableName: "WhatAppUsers",
+            tableName: WHATSAPP_USER_TABLE,
             billingMode: BillingMode.PAY_PER_REQUEST,
             partitionKey: {
                 name: "phoneNumber",
@@ -19,7 +20,7 @@ export class WhatsAppStack extends Stack {
         });
 
         this.whatsAppChatSessionTable = new Table(this, "WhatsAppChatSessionTable", {
-            tableName: "WhatsAppChatMessage",
+            tableName: WHATSAPP_CHAT_SESSION_TABLE,
             billingMode: BillingMode.PAY_PER_REQUEST,
             partitionKey: {
                 name: "sessionId",
